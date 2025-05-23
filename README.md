@@ -1,12 +1,9 @@
 ## EX. NO:2 IMPLEMENTATION OF PLAYFAIR CIPHER
-
- 
+# NAME:POOJASRI L
+# REG.NO:212223220076
 
 ## AIM:
  
-
- 
-
 To write a C program to implement the Playfair Substitution technique.
 
 ## DESCRIPTION:
@@ -34,10 +31,61 @@ STEP-5: Display the obtained cipher text.
 
 
 
-Program:
+# Program:
+```
+#include <stdio.h>
+#include <string.h>
+#define SIZE 5
+char keyMatrix[SIZE][SIZE] = {
+{'M', 'O', 'N', 'A', 'R'},
+{'C', 'H', 'Y', 'B', 'D'},
+{'E', 'F', 'G', 'J', 'K'},
+{'L', 'P', 'Q', 'S', 'T'},
+{'U', 'V', 'W', 'X', 'Z'}
+};
+void findPosition(char ch, int *row, int *col) {
+for (int i = 0; i < SIZE; i++) {
+for (int j = 0; j < SIZE; j++) {
+if (keyMatrix[i][j] == ch) {
+*row = i;
+*col = j;
+return;
+}
+}
+}
+}
+void playfairCipher(char text[], char result[], int encrypt) {
+int row1, col1, row2, col2, shift = encrypt ? 1 : -1;
+int len = strlen(text);
+for (int i = 0; i < len; i += 2) {
+findPosition(text[i], &row1, &col1);
+findPosition(text[i + 1], &row2, &col2);
+if (row1 == row2) {
+result[i] = keyMatrix[row1][(col1 + shift + SIZE) % SIZE];
+result[i + 1] = keyMatrix[row2][(col2 + shift + SIZE) % SIZE];
+} else if (col1 == col2) {
+result[i] = keyMatrix[(row1 + shift + SIZE) % SIZE][col1];
+result[i + 1] = keyMatrix[(row2 + shift + SIZE) % SIZE][col2];
+} else {
+result[i] = keyMatrix[row1][col2];
+result[i + 1] = keyMatrix[row2][col1];
+}
+}
+result[len] = '\0';
+}
+int main() {
+char plaintext[] = "POOJASHREE";
+char encryptedText[100], decryptedText[100];
+playfairCipher(plaintext, encryptedText, 1);
+printf("Encrypted Text: %s\n", encryptedText);
+playfairCipher(encryptedText, decryptedText, 0);
+printf("Decrypted Text: %s\n", decryptedText);
+return 0;
+}
+```
+# Output:
+![image](https://github.com/user-attachments/assets/160ae4ab-0b7f-4d19-ae40-d964fee46a85)
 
+# RESULT:
+The program is executed successfully
 
-
-
-
-Output:
